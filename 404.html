@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | GrowwPodcast</title>
+
+  <link rel="icon" type="image/x-icon" href="Images/growwpark_logo.ico">
+  <link rel="shortcut icon" href="Images/growwpark_logo.ico">
+    
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          screens: {
+            'desktop': '1281px',
+          },
+          colors: {
+            primary: {
+              DEFAULT: '#2563EB', // Royal Blue
+              dark: '#1E40AF',
+              light: '#60A5FA',
+              pale: '#EFF6FF',
+            },
+            accent: {
+              DEFAULT: '#F97316', // Vibrant Orange
+              dark: '#C2410C',
+              light: '#FDBA74',
+              pale: '#FFF7ED',
+            },
+            darkgrey: {
+              DEFAULT: '#0F172A',
+              light: '#1E293B',
+              lighter: '#334155',
+            },
+            offwhite: '#F8FAFC',
+            lightgrey: '#E2E8F0',
+            textprimary: '#0F172A',
+            textsecondary: '#1E293B',
+            textbody: '#475569',
+            textmuted: '#94A3B8',
+            border: '#E2E8F0',
+          },
+          animation: {
+            'float': 'float 6s infinite ease-in-out',
+            'fadeInUp': 'fadeInUp 0.8s ease-out',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' }
+            },
+            fadeInUp: {
+              'from': { opacity: '0', transform: 'translateY(30px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' }
+            }
+          },
+          boxShadow: {
+            'accent': '0 10px 30px rgba(249, 115, 22, 0.2)',
+            'primary': '0 10px 30px rgba(37, 99, 235, 0.2)',
+          },
+        }
+      }
+    }
+  </script>
+    
+  <style>
+    [data-theme="dark"] {
+      --tw-bg-opacity: 1;
+      background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+    }
+      
+    * { 
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    html, body { 
+        height: 100%;
+        overflow: hidden; /* Prevent scrolling on 404 page */
+    }
+
+    /* Floating Buttons */
+    .floating-buttons {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1000;
+        display: flex;
+        gap: 12px;
+    }
+
+    /* Background Pattern - Adapted for Podcast Theme */
+    .bg-pattern {
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(249, 115, 22, 0.05) 0%, transparent 40%);
+    }
+    
+    /* Text Gradient */
+    .text-gradient {
+        background: linear-gradient(135deg, #2563EB 0%, #F97316 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+  </style>
+</head>
+
+<body class="font-sans leading-relaxed text-textbody bg-offwhite dark:bg-darkgrey dark:text-textmuted transition-all duration-300 bg-pattern flex items-center justify-center">
+
+    <div class="floating-buttons">
+        <button id="darkModeToggle" class="w-11 h-11 bg-white dark:bg-darkgrey-light border border-lightgrey dark:border-darkgrey-lighter text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-accent/10 hover:text-accent hover:border-accent shadow-lg">
+            <i id="darkModeIcon" class="fas fa-moon"></i>
+        </button>
+        <button id="rtlToggle" class="w-11 h-11 bg-white dark:bg-darkgrey-light border border-lightgrey dark:border-darkgrey-lighter text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-accent/10 hover:text-accent hover:border-accent shadow-lg">
+            <i class="fas fa-align-right"></i>
+        </button>
+    </div>
+
+    <main class="w-full max-w-2xl px-4 text-center animate-fadeInUp relative z-10">
+        
+        <div class="mb-6 relative">
+            <div class="text-[120px] sm:text-[160px] md:text-[180px] font-black leading-none text-gradient animate-float opacity-90 select-none">
+                404
+            </div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full blur-3xl -z-10"></div>
+        </div>
+        
+        <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center shadow-primary text-white rotate-3 hover:rotate-6 transition-transform duration-300">
+            <i class="fas fa-microphone-slash text-3xl"></i>
+        </div>
+        
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-textprimary dark:text-white mb-4">
+            Signal Lost!
+        </h1>
+        
+        <p class="text-base sm:text-lg text-textbody dark:text-textmuted mb-8 max-w-md mx-auto leading-relaxed">
+            The episode you're looking for seems to be off the air. It might have been moved, deleted, or never recorded. 🎙️
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="index.html" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl shadow-primary hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 no-underline group">
+                <i class="fas fa-home group-hover:scale-110 transition-transform"></i>
+                Back to Studio
+            </a>
+            
+            <button onclick="goBack()" class="w-full sm:w-auto px-8 py-3.5 bg-transparent border-2 border-primary text-primary dark:text-white dark:border-white font-bold rounded-xl hover:bg-primary/5 dark:hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 group">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                Go Back
+            </button>
+        </div>
+        
+        <div class="mt-12 pt-8 border-t border-lightgrey dark:border-darkgrey-lighter">
+            <p class="text-sm text-textmuted mb-4 font-medium">Looking for something else?</p>
+            <div class="flex flex-wrap items-center justify-center gap-6 text-sm font-semibold">
+                <a href="Episodes.html" class="text-textbody dark:text-textmuted hover:text-accent transition-colors flex items-center gap-2 no-underline">
+                    <i class="fas fa-headphones"></i> Episodes
+                </a>
+                <a href="contact.html" class="text-textbody dark:text-textmuted hover:text-accent transition-colors flex items-center gap-2 no-underline">
+                    <i class="fas fa-life-ring"></i> Support
+                </a>
+                <a href="index.html" class="text-textbody dark:text-textmuted hover:text-accent transition-colors flex items-center gap-2 no-underline">
+                    <i class="fas fa-search"></i> Search
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ===== THEME & RTL LOGIC (MATCHING MAIN SITE) =====
+        const htmlElement = document.documentElement;
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const rtlToggle = document.getElementById('rtlToggle');
+
+        // Dark Mode Logic
+        function setDarkUI(theme) {
+            const isDark = theme === 'dark';
+            htmlElement.classList.toggle('dark', isDark);
+            htmlElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            const iconClass = isDark ? 'fa-sun' : 'fa-moon';
+            if(darkModeIcon) darkModeIcon.classList.replace(isDark ? 'fa-moon' : 'fa-sun', iconClass);
+        }
+        
+        // Initialize Theme
+        setDarkUI(localStorage.getItem('theme') || 'light');
+        
+        if(darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                const newTheme = htmlElement.classList.contains('dark') ? 'light' : 'dark';
+                setDarkUI(newTheme);
+            });
+        }
+
+        // RTL Logic
+        function setDirUI(dir) {
+            htmlElement.setAttribute('dir', dir);
+            localStorage.setItem('direction', dir);
+            if (dir === 'rtl') {
+                rtlToggle?.classList.add('active'); // Styling for active state if needed
+            } else {
+                rtlToggle?.classList.remove('active');
+            }
+        }
+        
+        // Initialize RTL
+        setDirUI(localStorage.getItem('direction') || 'ltr');
+        
+        if(rtlToggle) {
+            rtlToggle.addEventListener('click', () => {
+                const current = htmlElement.getAttribute('dir') || 'ltr';
+                const next = current === 'rtl' ? 'ltr' : 'rtl';
+                setDirUI(next);
+            });
+        }
+
+        // Go Back Function
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

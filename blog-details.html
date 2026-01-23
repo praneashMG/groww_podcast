@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article - GrowwPodcast</title>
+
+  <link rel="icon" type="image/x-icon" href="Images/growwpark_logo.ico">
+  <link rel="shortcut icon" href="Images/growwpark_logo.ico">
+    
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          screens: { 'desktop': '1281px' },
+          colors: {
+            primary: { DEFAULT: '#2563EB', dark: '#1E40AF', light: '#60A5FA', pale: '#EFF6FF' },
+            accent: { DEFAULT: '#F97316', dark: '#C2410C', light: '#FDBA74', pale: '#FFF7ED' },
+            darkgrey: { DEFAULT: '#0F172A', light: '#1E293B', lighter: '#334155' },
+            offwhite: '#F8FAFC',
+            lightgrey: '#E2E8F0',
+            textprimary: '#0F172A',
+            textsecondary: '#1E293B',
+            textbody: '#475569',
+            textmuted: '#94A3B8',
+            border: '#E2E8F0',
+          },
+          animation: { 'fadeInUp': 'fadeInUp 0.8s ease-out' },
+          keyframes: { fadeInUp: { 'from': { opacity: '0', transform: 'translateY(20px)' }, 'to': { opacity: '1', transform: 'translateY(0)' } } },
+          boxShadow: { 'card': '0 10px 30px rgba(0, 0, 0, 0.08)' },
+        }
+      }
+    }
+  </script>
+    
+  <style>
+    [data-theme="dark"] { --tw-bg-opacity: 1; background-color: rgb(15 23 42 / var(--tw-bg-opacity)); }
+    .hamburger { display: flex; flex-direction: column; cursor: pointer; z-index: 10012; position: relative; }
+    .hamburger span { display: block; background: #F97316; border-radius: 2px; transition: all 0.3s ease; }
+    @media (min-width: 1281px) { .hamburger { display: none !important; } }
+    .hamburger.active { opacity: 0; pointer-events: none; }
+    .nav-link.active, .mobile-dropdown-toggle.active { color: #F97316 !important; font-weight: 700; position: relative; }
+    @media (min-width: 1281px) { .nav-link.active::after { content: none !important; display: none; } }
+    @media (max-width: 1280px) { .nav-link.active::before, .mobile-dropdown-toggle.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 70%; background: #F97316; border-radius: 0 4px 4px 0; } }
+    .dropdown-arrow { display: inline-block !important; transition: transform 0.3s ease; }
+    
+    @media (min-width: 1281px) {
+      .nav-dropdown { position: relative; }
+      .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 20px; background: transparent; z-index: 10000; }
+      .dropdown-menu { position: absolute; top: 100%; left: 0; min-width: 220px; background: #ffffff; border-radius: 0.75rem; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.15); border-top: 4px solid #F97316; padding: 0.5rem 0; margin-top: 0.5rem; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 10011; display: block !important; }
+      [data-theme="dark"] .dropdown-menu { background: #1E293B; box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8); }
+      .nav-dropdown:hover .dropdown-menu, .dropdown-menu:hover { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; }
+      .dropdown-menu li { display: block; width: 100%; list-style: none; }
+      .dropdown-menu a { display: block; padding: 0.75rem 1.25rem; color: #0F172A; text-decoration: none; transition: all 0.3s ease; font-size: 0.875rem; font-weight: 500; }
+      [data-theme="dark"] .dropdown-menu a { color: #ffffff; }
+      .dropdown-menu a:hover { background: rgba(249, 115, 22, 0.1); color: #F97316; padding-left: 1.75rem; border-left: 3px solid #F97316; }
+      .mobile-dropdown-toggle { display: none !important; }
+    }
+    @media (max-width: 1280px) {
+      .dropdown-menu { position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; background: transparent !important; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+      .dropdown-menu.active { max-height: 500px; }
+      .dropdown-menu a { display: block; padding: 0.75rem 1.5rem 0.75rem 2.5rem !important; color: inherit; background: rgba(249, 115, 22, 0.05) !important; border-left: 3px solid transparent !important; }
+    }
+    .dropdown-arrow-mobile { transition: transform 0.3s ease; }
+    .dropdown-arrow-mobile.rotated { transform: rotate(180deg); }
+    .nav-menu { transition: left 0.4s ease; left: -100%; }
+    @media (min-width: 1281px) { .nav-menu { left: 0 !important; position: static; height: auto; background: transparent; } }
+    .nav-menu.active { left: 0 !important; }
+    [dir="rtl"] .nav-menu { left: auto; right: -100%; transition: right 0.4s ease; }
+    [dir="rtl"] .nav-menu.active { right: 0 !important; }
+    @media (min-width: 1281px) { [dir="rtl"] .nav-menu { right: 0 !important; } }
+    @media (max-width: 1280px) { .hamburger { display: flex !important; } .nav-right { display: none !important; } .nav-menu { position: fixed; left: -100%; transition: left 0.4s ease; } .nav-menu.active { left: 0 !important; } }
+
+    /* Article Typography */
+    .article-content p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.125rem; color: #475569; }
+    [data-theme="dark"] .article-content p { color: #94A3B8; }
+    .article-content h2 { font-size: 1.75rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1rem; color: #0F172A; }
+    [data-theme="dark"] .article-content h2 { color: #ffffff; }
+    .article-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #475569; }
+    [data-theme="dark"] .article-content ul { color: #94A3B8; }
+    .article-content li { margin-bottom: 0.5rem; }
+
+    /* Comment Form */
+    .comment-input:focus { ring: 2px; ring-color: #F97316; border-color: transparent; }
+
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body { padding-top: 0; }
+  </style>
+</head>
+
+<body class="font-sans leading-relaxed text-textbody overflow-x-hidden bg-white dark:bg-darkgrey dark:text-textmuted transition-all duration-300">
+
+  <nav class="fixed top-0 left-0 right-0 z-[10010] bg-white dark:bg-darkgrey shadow-lg border-b border-lightgrey dark:border-darkgrey-light">
+
+    <div class="max-w-[1400px] mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3">
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 py-2 no-underline group">
+        <div class="w-9 h-9 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center overflow-hidden shadow-lg relative shrink-0">
+            <i class="fas fa-microphone-lines text-white text-sm z-10 relative"></i>
+            <div class="logo-shine"></div>
+        </div>
+        <div class="flex flex-col">
+          <div class="text-textprimary dark:text-white text-lg sm:text-2xl font-bold leading-tight">GrowwPodcast</div>
+          <div class="text-primary text-xs sm:text-sm font-normal">Voice</div>
+        </div>
+      </a>
+
+      <ul id="navMenu" class="nav-menu list-none desktop:flex items-center gap-4 desktop:gap-6 xl:gap-8 m-0 fixed desktop:static top-0 w-full desktop:w-auto h-screen desktop:h-auto bg-offwhite dark:bg-textsecondary desktop:bg-transparent flex-col desktop:flex-row justify-start desktop:justify-center p-0 overflow-y-auto desktop:overflow-visible z-[10011] shadow-xl desktop:shadow-none fixed w-full">
+     <div class="mobile-menu-header flex desktop:hidden justify-between items-center p-4 sm:p-5 bg-white dark:bg-darkgrey border-b border-primary/20 w-full gap-3 ">
+  
+  <a href="index.html" class="flex items-center gap-2 no-underline">
+    <div class="w-9 h-9 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center overflow-hidden shadow-lg relative shrink-0">
+        <i class="fas fa-microphone-lines text-white text-sm z-10 relative"></i>
+        <div class="logo-shine"></div>
+    </div>
+    <div class="flex flex-col">
+      <div class="text-textprimary dark:text-white text-lg font-bold leading-tight">GrowwPodcast</div>
+      <div class="text-primary text-xs font-normal">Voice</div>
+    </div>
+  </a>
+
+  <div class="flex items-center gap-2">
+    <button id="darkModeToggleMobile"
+            class="w-9 h-9 bg-transparent border border-accent/30 text-accent rounded-lg flex items-center justify-center cursor-pointer transition-all text-base hover:bg-accent/10 hover:scale-110">
+      <i id="darkModeIconMobile" class="fas fa-moon"></i>
+    </button>
+    <button id="rtlToggleMobile"
+            class="w-9 h-9 bg-transparent border border-accent/30 text-accent rounded-lg flex items-center justify-center cursor-pointer transition-all text-base hover:bg-accent/10 hover:scale-110">
+      <i class="fas fa-align-right"></i>
+    </button>
+    <button id="closeMenu"
+            class="close-menu w-9 h-9 bg-accent/20 border-2 border-accent text-accent rounded-lg cursor-pointer flex items-center justify-center transition-all duration-300 hover:bg-accent hover:text-white hover:rotate-90 hover:scale-110">
+      <i class="fas fa-times text-xl"></i>
+    </button>
+  </div>
+</div>
+
+        <li class="nav-item nav-dropdown relative w-full desktop:w-auto border-b border-lightgrey desktop:border-none desktop:h-full desktop:flex desktop:items-center">
+          <a href="javascript:void(0);" class="nav-link hidden desktop:flex items-center gap-1 text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 font-medium text-base transition-all duration-300 relative hover:text-accent w-full" data-page="home">Home <span class="dropdown-arrow text-xs">▼</span></a>
+          <button class="mobile-dropdown-toggle desktop:hidden w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-textprimary dark:text-white font-medium text-base hover:bg-accent/5 transition-colors" data-target="homeDropdown" data-page="home"><span>Home</span><i class="fas fa-chevron-down text-xs dropdown-arrow-mobile"></i></button>
+          <ul class="dropdown-menu desktop:absolute desktop:top-full desktop:left-0" id="homeDropdown">
+            <li><a href="index.html" class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium" data-page="home">Home Page 1</a></li>
+            <li><a href="home-page-2.html" class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium" data-page="home">Home Page 2</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item w-full desktop:w-auto border-b border-lightgrey desktop:border-none relative desktop:h-full desktop:flex desktop:items-center">
+          <a href="about.html" class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 flex items-center font-medium text-base transition-all relative hover:text-accent w-full" data-page="about">About</a>
+        </li>
+
+        <li class="nav-item w-full desktop:w-auto border-b border-lightgrey desktop:border-none relative desktop:h-full desktop:flex desktop:items-center">
+          <a href="Episodes.html" class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 flex items-center font-medium text-base transition-all relative hover:text-accent w-full" data-page="episodes">Episodes</a>
+        </li>
+        <li class="nav-item w-full desktop:w-auto border-b border-lightgrey desktop:border-none relative desktop:h-full desktop:flex desktop:items-center">
+          <a href="pricing.html" class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 flex items-center font-medium text-base transition-all relative hover:text-accent w-full" data-page="pricing">Pricing</a>
+        </li>
+        <li class="nav-item w-full desktop:w-auto border-b border-lightgrey desktop:border-none relative desktop:h-full desktop:flex desktop:items-center">
+          <a href="blog.html" class="nav-link active text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 flex items-center font-medium text-base transition-all relative hover:text-accent w-full" data-page="blog">Blog</a>
+        </li>
+        <li class="nav-item w-full desktop:w-auto border-b border-lightgrey desktop:border-none relative desktop:h-full desktop:flex desktop:items-center">
+          <a href="faq.html" class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 flex items-center font-medium text-base transition-all relative hover:text-accent w-full" data-page="faq">FAQ</a>
+        </li>
+        <li class="nav-item w-full desktop:w-auto border-b border-lightgrey desktop:border-none relative desktop:h-full desktop:flex desktop:items-center">
+          <a href="contact.html" class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 flex items-center font-medium text-base transition-all relative hover:text-accent w-full" data-page="contact">Contact</a>
+        </li>
+
+        <li class="nav-item nav-dropdown relative w-full desktop:w-auto border-b border-lightgrey desktop:border-none desktop:h-full desktop:flex desktop:items-center">
+          <a href="javascript:void(0);" class="nav-link hidden desktop:flex items-center gap-1 text-textprimary dark:text-white no-underline py-4 sm:py-5 desktop:py-6 px-4 sm:px-6 desktop:px-0 font-medium text-base transition-all duration-300 relative hover:text-accent w-full" data-page="dashboard">Dashboard <span class="dropdown-arrow text-xs">▼</span></a>
+          <button class="mobile-dropdown-toggle desktop:hidden w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-textprimary dark:text-white font-medium text-base hover:bg-accent/5 transition-colors" data-target="dashboardDropdown" data-page="dashboard"><span>Dashboard</span><i class="fas fa-chevron-down text-xs dropdown-arrow-mobile"></i></button>
+          <ul class="dropdown-menu desktop:absolute desktop:top-full desktop:left-0" id="dashboardDropdown">
+            <li><a href="user-dashboard.html" class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium" data-page="dashboard"><i class="fas fa-user mr-2"></i>User</a></li>
+            <li><a href="admin-dashboard.html" class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium" data-page="dashboard"><i class="fas fa-user-shield mr-2"></i>Admin</a></li>
+          </ul>
+        </li>
+
+        <div class="nav-right hidden desktop:flex w-auto items-center gap-3 xl:gap-4">
+          <button id="darkModeToggle" class="w-10 h-10 bg-transparent border-none text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-accent/10 hover:text-accent hover:scale-110"><i id="darkModeIcon" class="fas fa-moon"></i></button>
+          <button id="rtlToggle" class="w-10 h-10 bg-transparent border-none text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-accent/10 hover:text-accent hover:scale-110"><i class="fas fa-align-right"></i></button>
+          <a href="login.html?tab=register" class="bg-accent border-2 border-accent text-white py-2.5 px-5 desktop:px-6 rounded-lg font-bold no-underline transition-all flex items-center justify-center gap-2 hover:bg-accent-dark hover:border-accent-dark hover:-translate-y-1 hover:shadow-accent-lg text-sm desktop:text-base whitespace-nowrap"><i class="fas fa-rocket"></i>Get Started</a>
+        </div>
+
+        <div class="w-full flex desktop:hidden flex-col gap-3 p-4 sm:p-6 mt-auto">
+          <a href="login.html" class="w-full bg-transparent border-2 border-primary text-textprimary dark:text-white py-3 px-6 rounded-lg font-semibold no-underline transition-all flex items-center justify-center gap-2 hover:bg-primary/10 text-base"><i class="fas fa-user"></i>Login</a>
+          <a href="login.html?tab=register" class="w-full bg-accent border-2 border-accent text-white py-3 px-6 rounded-lg font-bold no-underline transition-all flex items-center justify-center gap-2 hover:bg-accent-dark text-base"><i class="fas fa-rocket"></i>Get Started</a>
+        </div>
+      </ul>
+      <button id="hamburger" class="hamburger flex flex-col gap-1 cursor-pointer p-2 bg-transparent border-none"><span class="w-6 h-[3px] sm:w-7 rounded"></span><span class="w-6 h-[3px] sm:w-7 rounded"></span><span class="w-6 h-[3px] sm:w-7 rounded"></span></button>
+    </div>
+  </nav>
+
+  <section class="relative min-h-screen flex items-center pt-28 pb-12 bg-cover bg-center bg-no-repeat" style="background-image: url('Images/blog herosection.jpg');">
+    <div class="absolute inset-0 bg-darkgrey/85 dark:bg-darkgrey/90"></div>
+    
+    <div class="max-w-[1000px] mx-auto px-4 md:px-6 lg:px-8 relative z-10 w-full text-center">
+        <div id="heroContent" class="animate-fadeInUp">
+            <span id="blogCategory" class="bg-primary/20 text-primary-light border border-primary/30 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-widest mb-6 inline-block backdrop-blur-sm">Category</span>
+            <h1 id="blogTitle" class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">Article Title Loading...</h1>
+            <div class="flex justify-center items-center gap-6 text-gray-300">
+                <span id="blogDate"><i class="far fa-calendar mr-2"></i>...</span>
+                <span class="w-1 h-1 bg-gray-400 rounded-full"></span>
+                <span id="blogAuthor"><i class="far fa-user mr-2"></i>...</span>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section class="py-12 md:py-20 px-4 bg-white dark:bg-darkgrey">
+      <div class="max-w-[1200px] mx-auto grid lg:grid-cols-3 gap-12">
+          
+          <div class="lg:col-span-2">
+              <div id="blogImageContainer" class="rounded-3xl overflow-hidden shadow-2xl border border-lightgrey dark:border-darkgrey-light mb-10 h-[300px] md:h-[450px]">
+                  <img id="blogImage" src="" alt="Blog Cover" class="w-full h-full object-cover">
+              </div>
+
+              <div id="blogContent" class="article-content text-textbody dark:text-textmuted text-lg">
+                  <p>Loading article content...</p>
+              </div>
+              
+              <div class="mt-12 pt-8 border-t border-lightgrey dark:border-darkgrey-light flex justify-between items-center">
+                  <span class="font-bold text-textprimary dark:text-white">Share this article:</span>
+                  <div class="flex gap-4">
+                      <button class="w-10 h-10 rounded-full bg-offwhite dark:bg-textsecondary flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-lightgrey dark:border-darkgrey-light text-textbody dark:text-textmuted"><i class="fab fa-facebook-f"></i></button>
+                      <button class="w-10 h-10 rounded-full bg-offwhite dark:bg-textsecondary flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-lightgrey dark:border-darkgrey-light text-textbody dark:text-textmuted"><i class="fab fa-twitter"></i></button>
+                      <button class="w-10 h-10 rounded-full bg-offwhite dark:bg-textsecondary flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-lightgrey dark:border-darkgrey-light text-textbody dark:text-textmuted"><i class="fab fa-linkedin-in"></i></button>
+                  </div>
+              </div>
+          </div>
+
+          <div class="lg:col-span-1">
+              <div class="sticky top-28 space-y-8">
+                  <div class="bg-offwhite dark:bg-textsecondary p-6 rounded-2xl border border-lightgrey dark:border-darkgrey-light">
+                      <h3 class="font-bold text-textprimary dark:text-white mb-4">About the Author</h3>
+                      <div class="flex items-center gap-4 mb-4">
+                          <div class="w-14 h-14 bg-gray-300 rounded-full overflow-hidden">
+                              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="w-full h-full object-cover">
+                          </div>
+                          <div>
+                              <h4 id="sidebarAuthor" class="font-bold text-textprimary dark:text-white">Author Name</h4>
+                              <span class="text-xs text-textmuted">Senior Contributor</span>
+                          </div>
+                      </div>
+                      <p class="text-sm text-textbody dark:text-textmuted mb-4">Passionate about sharing insights on technology, growth, and the future of media.</p>
+                      <button class="w-full py-2 border border-primary text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-all text-sm">View Profile</button>
+                  </div>
+
+                  <div class="bg-gradient-to-br from-primary to-primary-dark p-6 rounded-2xl text-white text-center">
+                      <i class="fas fa-envelope-open-text text-3xl mb-3 text-accent"></i>
+                      <h3 class="font-bold text-lg mb-2">Subscribe to our Newsletter</h3>
+                      <p class="text-sm text-primary-pale mb-4">Get the latest articles delivered to your inbox weekly.</p>
+                      <input type="email" placeholder="Email address" class="w-full px-4 py-2 rounded-lg text-darkgrey text-sm mb-3 focus:outline-none">
+                      <button class="w-full py-2 bg-accent hover:bg-accent-dark font-bold rounded-lg transition-colors text-sm">Subscribe</button>
+                  </div>
+
+                  <div>
+                      <h3 class="font-bold text-textprimary dark:text-white mb-4">Related Topics</h3>
+                      <div class="flex flex-wrap gap-2">
+                          <span class="px-3 py-1 rounded-full bg-offwhite dark:bg-textsecondary text-xs text-textmuted border border-lightgrey dark:border-darkgrey-light hover:border-primary transition-colors cursor-pointer">Podcasting</span>
+                          <span class="px-3 py-1 rounded-full bg-offwhite dark:bg-textsecondary text-xs text-textmuted border border-lightgrey dark:border-darkgrey-light hover:border-primary transition-colors cursor-pointer">Audio Tech</span>
+                          <span class="px-3 py-1 rounded-full bg-offwhite dark:bg-textsecondary text-xs text-textmuted border border-lightgrey dark:border-darkgrey-light hover:border-primary transition-colors cursor-pointer">Marketing</span>
+                          <span class="px-3 py-1 rounded-full bg-offwhite dark:bg-textsecondary text-xs text-textmuted border border-lightgrey dark:border-darkgrey-light hover:border-primary transition-colors cursor-pointer">Growth</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="py-12 px-4 bg-offwhite dark:bg-darkgrey-light border-t border-lightgrey dark:border-darkgrey-light">
+    <div class="max-w-[1000px] mx-auto">
+      <h3 class="text-2xl font-bold text-textprimary dark:text-white mb-8">Join the Conversation (3)</h3>
+      
+      <div class="bg-white dark:bg-textsecondary p-6 rounded-2xl shadow-sm border border-lightgrey dark:border-darkgrey-light mb-12">
+        <textarea class="w-full h-32 p-4 bg-offwhite dark:bg-darkgrey rounded-xl border border-lightgrey dark:border-darkgrey-light text-textprimary dark:text-white resize-none focus:outline-none focus:ring-2 focus:ring-accent mb-4 transition-all" placeholder="Share your thoughts..."></textarea>
+        <div class="flex justify-end">
+          <button class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary-dark transition-colors shadow-lg shadow-primary/30">Post Comment</button>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div class="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <h4 class="font-bold text-textprimary dark:text-white">David K.</h4>
+              <span class="text-xs text-textmuted">• 2 days ago</span>
+            </div>
+            <p class="text-textbody dark:text-textmuted text-sm leading-relaxed">This article was incredibly insightful! I never realized how much room acoustics impact the final audio quality even more than the microphone itself. Definitely going to treat my room before buying a new mic.</p>
+            <div class="flex gap-4 mt-3">
+              <button class="text-xs font-bold text-textmuted hover:text-accent transition-colors flex items-center gap-1"><i class="far fa-thumbs-up"></i> Like</button>
+              <button class="text-xs font-bold text-textmuted hover:text-accent transition-colors">Reply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <h4 class="font-bold text-textprimary dark:text-white">Sarah Jenkins</h4>
+              <span class="text-xs text-textmuted">• 5 days ago</span>
+            </div>
+            <p class="text-textbody dark:text-textmuted text-sm leading-relaxed">Great tips on monetization. I've been hesitating to start a Patreon, but seeing the success stories here gives me the confidence to finally launch it.</p>
+            <div class="flex gap-4 mt-3">
+              <button class="text-xs font-bold text-textmuted hover:text-accent transition-colors flex items-center gap-1"><i class="far fa-thumbs-up"></i> Like</button>
+              <button class="text-xs font-bold text-textmuted hover:text-accent transition-colors">Reply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+            <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="User" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <h4 class="font-bold text-textprimary dark:text-white">Michael T.</h4>
+              <span class="text-xs text-textmuted">• 1 week ago</span>
+            </div>
+            <p class="text-textbody dark:text-textmuted text-sm leading-relaxed">The section on narrative arcs is pure gold. Structure is often overlooked in interview podcasts, but it makes such a difference in retention.</p>
+            <div class="flex gap-4 mt-3">
+              <button class="text-xs font-bold text-textmuted hover:text-accent transition-colors flex items-center gap-1"><i class="far fa-thumbs-up"></i> Like</button>
+              <button class="text-xs font-bold text-textmuted hover:text-accent transition-colors">Reply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-white dark:bg-darkgrey text-textprimary dark:text-textmuted py-8 md:py-12 lg:py-20 px-4 md:px-6 lg:px-8 border-t border-lightgrey dark:border-darkgrey-light">
+    <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
+        
+      <div>
+        <div class="flex items-center gap-2 mb-4 md:mb-6">
+          <div class="w-9 h-9 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center overflow-hidden shadow-lg relative shrink-0">
+            <i class="fas fa-microphone-lines text-white text-sm z-10 relative"></i>
+            <div class="logo-shine"></div>
+          </div>
+          <div>
+            <div class="text-xl md:text-2xl font-black text-textprimary dark:text-white leading-tight">GrowwPodcast</div>
+            <div class="text-primary text-xs font-semibold">Voice</div>
+          </div>
+        </div>
+        <p class="text-textbody dark:text-textmuted text-sm md:text-base mb-4 md:mb-6 leading-relaxed">
+          Your trusted partner for exceptional educational experiences since 2015. Building futures one episode at a time.
+        </p>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-accent/10 rounded-lg flex items-center justify-center text-accent text-base md:text-lg no-underline border-2 border-accent/30 transition-all hover:bg-accent hover:text-white hover:-translate-y-1 hover:border-accent">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-base md:text-lg no-underline border-2 border-primary/30 transition-all hover:bg-primary hover:text-white hover:-translate-y-1 hover:border-primary">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-accent/10 rounded-lg flex items-center justify-center text-accent text-base md:text-lg no-underline border-2 border-accent/30 transition-all hover:bg-accent hover:text-white hover:-translate-y-1 hover:border-accent">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-base md:text-lg no-underline border-2 border-primary/30 transition-all hover:bg-primary hover:text-white hover:-translate-y-1 hover:border-primary">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl mb-4 md:mb-6 font-bold text-primary">Quick Links</h3>
+        <ul class="list-none space-y-2 md:space-y-3">
+          <li><a href="about.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-accent hover:pl-2">About</a></li>
+          <li><a href="Episodes.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-accent hover:pl-2">Episodes</a></li>
+          <li><a href="pricing.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-accent hover:pl-2">Pricing</a></li>
+          <li><a href="blog.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-accent hover:pl-2">Blog</a></li>
+          <li><a href="faq.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-accent hover:pl-2">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl mb-4 md:mb-6 font-bold text-primary">Contact</h3>
+        <div class="space-y-3 md:space-y-4 text-textbody dark:text-textmuted">
+          <div class="flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-white">
+              <i class="fas fa-phone text-sm"></i>
+            </div>
+            <div class="text-sm md:text-base">
+              <p class="font-semibold text-textprimary dark:text-white">+1800-459-890</p>
+              <p class="text-xs md:text-sm text-textmuted">Mon - Sat, 9am - 7pm</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-white">
+              <i class="fas fa-envelope text-sm"></i>
+            </div>
+            <div class="text-sm md:text-base">
+              <p class="font-semibold text-textprimary dark:text-white">groww@park.com</p>
+              <p class="text-xs md:text-sm text-textmuted">We reply within 24 hours</p>
+            </div>    
+          </div>
+          <div class="flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-accent flex-shrink-0 flex items-center justify-center text-white">
+              <i class="fas fa-location-dot text-sm"></i>
+            </div>
+            <div class="text-sm md:text-base">
+              <p class="font-semibold text-textprimary dark:text-white">Chennai, India</p>
+              <p class="text-xs md:text-sm text-textmuted">Remote‑first team</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl mb-4 md:mb-6 font-bold text-primary">Stay Updated</h3>
+        <p class="text-textbody dark:text-textmuted text-sm md:text-base mb-4 leading-relaxed">
+          Subscribe to get the latest episodes, offers, and career tips.
+        </p>
+        <form class="space-y-3">
+          <input type="email"
+                 placeholder="Enter your email"
+                 class="w-full px-4 py-3 rounded-lg bg-offwhite dark:bg-textsecondary border-2 border-lightgrey dark:border-darkgrey-light text-textprimary dark:text-white placeholder:text-textmuted focus:outline-none focus:border-accent text-sm md:text-base transition-all" />
+          <button type="submit"
+                  class="w-full px-5 py-3 rounded-lg bg-accent text-white font-bold text-sm md:text-base hover:bg-accent-dark transition-all duration-300 hover:scale-105 hover:shadow-accent flex items-center justify-center gap-2">
+            <i class="fas fa-paper-plane"></i>
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto mt-8 md:mt-12 pt-6 md:pt-8 border-t border-lightgrey dark:border-darkgrey-light text-center">
+      <p class="text-textmuted text-xs md:text-sm">
+        © 2015‑2026 GrowwPodcast Voice. All rights reserved.
+      </p>
+    </div>
+  </footer>
+  
+  <script>
+    // 1. BLOG DATA MAPPED EXACTLY TO BLOG.HTML IMAGES
+    const blogsData = {
+        201: {
+            title: "The Future of Audio: Trends to Watch in 2027",
+            category: "FEATURED",
+            date: "Oct 20, 2026",
+            author: "Groww Team",
+            image: "Images/The Future of Audio Trends to Watch 2027.jpg",
+            content: `<p>The audio landscape is shifting beneath our feet. As we approach 2027, several key trends are emerging that will define the next decade of podcasting.</p><h2>1. Spatial Audio Becomes Standard</h2><p>Listeners crave immersion. With VR/AR rising, audio follows. Spatial audio allows creators to place sounds in a 3D space.</p><h2>2. AI-Assisted Production</h2><p>From automated editing to voice synthesis, AI streamlines workflow, but the human touch remains key.</p><h2>3. Interactive Podcasts</h2><p>Real-time polls and branching narratives turn passive listening into active engagement.</p>`
+        },
+        202: {
+            title: "How to Choose the Perfect Microphone for Your Voice",
+            category: "TECH",
+            date: "Oct 18, 2026",
+            author: "Alex Sound",
+            image: "Images/The Ethics Artificial General Intelligence.jpg", 
+            content: `<p>Choosing a microphone is critical. It's not just about price; it's about finding the mic that fits your vocal timbre.</p><h2>Dynamic vs. Condenser</h2><p>Dynamic mics reject background noise, perfect for untreated rooms. Condensers capture detail but need quiet spaces.</p><h2>USB vs. XLR</h2><p>USB is plug-and-play; XLR offers upgrade paths but needs an interface.</p>`
+        },
+        203: {
+            title: "5 Proven Ways to Monetize Your Podcast in 2026",
+            category: "BUSINESS",
+            date: "Oct 15, 2026",
+            author: "Maria R.",
+            image: "Images/5 Proven Ways to Monetize Your Podcast in 2026.jpg",
+            content: `<p>Monetization isn't just ads. Build a diversified revenue stack.</p><h2>1. Premium Subscriptions</h2><p>Offer ad-free episodes via Apple Subscriptions or Patreon.</p><h2>2. Merch</h2><p>Print-on-demand makes selling branded gear risk-free.</p><h2>3. Affiliate Marketing</h2><p>Promote products you trust for higher conversion rates.</p>`
+        },
+        204: {
+            title: "SEO for Podcasters: Getting Found on Spotify & Apple",
+            category: "GROWTH",
+            date: "Oct 10, 2026",
+            author: "SEO Team",
+            image: "Images/Editing Hacks to Speed Up Your Workflow.jpg",
+            content: `<p>Is anyone finding your podcast? SEO matters.</p><h2>Keywords in Titles</h2><p>Use keywords your audience searches for.</p><h2>Show Notes Matter</h2><p>Google indexes your notes. Write detailed summaries with links.</p>`
+        },
+        205: {
+            title: "The Art of the Interview: Asking Better Questions",
+            category: "INTERVIEW",
+            date: "Oct 05, 2026",
+            author: "Dr. Sarah",
+            image: "Images/The Art of the Interview Asking Better Questions.jpg",
+            content: `<p>A great interview feels like a conversation.</p><h2>The 'Why' Question</h2><p>Don't just ask what happened. Ask why it happened.</p><h2>Silence is Golden</h2><p>Wait after an answer. Guests often add their most profound thoughts in that silence.</p>`
+        },
+        206: {
+            title: "Storytelling 101: Narrative Arcs in Audio",
+            category: "CREATIVE",
+            date: "Oct 02, 2026",
+            author: "James W.",
+            image: "Images/Editing Hacks to Speed Up Your Workflow.jpg",
+            content: `<p>Every story needs a beginning, middle, and end.</p><h2>The Hook</h2><p>You have 30 seconds to grab the listener. Start with action.</p><h2>The Stakes</h2><p>Why does this story matter? Make the risk clear.</p>`
+        },
+        207: {
+            title: "Editing Hacks to Speed Up Your Workflow",
+            category: "EDITING",
+            date: "Sep 28, 2026",
+            author: "Audio Team",
+            image: "Images/Editing Hacks to Speed Up Your Workflow.jpg",
+            content: `<p>Post-production can be slow. Speed it up.</p><h2>Ripple Delete</h2><p>Master this shortcut. It closes gaps automatically.</p><h2>Templates</h2><p>Start with intro/outro/EQ settings pre-loaded.</p>`
+        }
+    };
+
+    // 2. LOAD CONTENT BASED ON URL ID
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const blogId = urlParams.get('id');
+        const blog = blogsData[blogId];
+
+        if (blog) {
+            document.getElementById('blogCategory').textContent = blog.category;
+            document.getElementById('blogTitle').textContent = blog.title;
+            document.getElementById('blogDate').innerHTML = `<i class="far fa-calendar mr-2"></i>${blog.date}`;
+            document.getElementById('blogAuthor').innerHTML = `<i class="far fa-user mr-2"></i>${blog.author}`;
+            document.getElementById('sidebarAuthor').textContent = blog.author;
+            document.getElementById('blogImage').src = blog.image;
+            document.getElementById('blogContent').innerHTML = blog.content;
+        } else {
+            document.getElementById('blogTitle').textContent = "Article Not Found";
+            document.getElementById('blogContent').innerHTML = "<p>Please return to the blog page and select a valid article.</p>";
+        }
+
+        // Active Page Logic
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('.nav-link, .mobile-dropdown-toggle, .dropdown-menu a').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('[data-page="blog"]').forEach(el => el.classList.add('active'));
+    });
+
+    // 3. NAV LOGIC
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('navMenu');
+    const closeMenu = document.getElementById('closeMenu');
+
+    function closeMobileMenu() {
+      hamburger?.classList.remove('active');
+      navMenu.classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('active'));
+      document.querySelectorAll('.dropdown-arrow-mobile').forEach(arrow => arrow.classList.remove('rotated'));
+    }
+
+    function isDesktopLandscape() { return window.innerWidth >= 1281; }
+
+    hamburger?.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!isDesktopLandscape()) { hamburger.classList.add('active'); navMenu.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    });
+
+    closeMenu?.addEventListener('click', e => { e.stopPropagation(); closeMobileMenu(); });
+
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const targetContent = document.getElementById(targetId);
+        const arrow = this.querySelector('.dropdown-arrow-mobile');
+        document.querySelectorAll('.dropdown-menu').forEach(content => {
+          if (content.id !== targetId && content.classList.contains('active')) { content.classList.remove('active'); const otherButton = document.querySelector(`[data-target="${content.id}"]`); if (otherButton) otherButton.querySelector('.dropdown-arrow-mobile')?.classList.remove('rotated'); }
+        });
+        targetContent.classList.toggle('active');
+        arrow.classList.toggle('rotated');
+      });
+    });
+
+    window.addEventListener('resize', () => { if (isDesktopLandscape()) { hamburger?.classList.remove('active'); navMenu.classList.remove('active'); document.body.style.overflow = ''; } });
+
+    // 4. THEME & RTL
+    const htmlElement = document.documentElement;
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+    const rtlToggle = document.getElementById('rtlToggle');
+    const rtlToggleMobile = document.getElementById('rtlToggleMobile');
+
+    function setDarkUI(theme) {
+      const isDark = theme === 'dark';
+      htmlElement.classList.toggle('dark', isDark);
+      htmlElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      const iconClass = isDark ? 'fa-sun' : 'fa-moon';
+      document.getElementById('darkModeIcon')?.classList.replace(isDark ? 'fa-moon' : 'fa-sun', iconClass);
+      document.getElementById('darkModeIconMobile')?.classList.replace(isDark ? 'fa-moon' : 'fa-sun', iconClass);
+    }
+    setDarkUI(localStorage.getItem('theme') || 'light');
+    function toggleDarkMode() { setDarkUI(htmlElement.classList.contains('dark') ? 'light' : 'dark'); }
+    darkModeToggle?.addEventListener('click', toggleDarkMode);
+    darkModeToggleMobile?.addEventListener('click', toggleDarkMode);
+
+    function setDirUI(dir) {
+      htmlElement.setAttribute('dir', dir);
+      localStorage.setItem('direction', dir);
+      if (dir === 'rtl') { rtlToggle?.classList.add('active'); rtlToggleMobile?.classList.add('active'); } 
+      else { rtlToggle?.classList.remove('active'); rtlToggleMobile?.classList.remove('active'); }
+    }
+    setDirUI(localStorage.getItem('direction') || 'ltr');
+    function toggleDir() { setDirUI(htmlElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl'); }
+    rtlToggle?.addEventListener('click', toggleDir);
+    rtlToggleMobile?.addEventListener('click', toggleDir);
+  </script>
+</body>
+</html>

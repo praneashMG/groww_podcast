@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GrowwPodcast Login & Register - Join the audio community">
+    <title>Login & Register - GrowwPodcast</title>
+    
+    <link rel="icon" type="image/x-icon" href="images/growwpark_logo.ico">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: '#2563EB', dark: '#1E40AF', light: '#60A5FA' }, // Royal Blue
+                        accent: { DEFAULT: '#F97316', dark: '#C2410C', light: '#FDBA74' },  // Orange
+                        darkgrey: { DEFAULT: '#0F172A', light: '#1E293B' }
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        :root {
+            /* PODCAST THEME COLORS */
+            --primary-blue: #2563EB;
+            --accent-orange: #F97316;
+            --navbar-bg: #ffffff; 
+            --navbar-text: #0F172A;
+        }
+        
+        [data-theme="dark"] {
+            --navbar-bg: #1E293B;
+            --navbar-text: #ffffff;
+        }
+        
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth; 
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar-container {
+            background-color: var(--navbar-bg) !important;
+            color: var(--navbar-text) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        [data-theme="dark"] .navbar-container {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Logo Animation */
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .logo-shine::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2563EB; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1E40AF; }
+        
+        [data-theme="dark"] ::-webkit-scrollbar-thumb { background: #F97316; }
+        
+        /* Form fade animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-active {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* Fixed centered container - NO SCROLL */
+        .auth-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 360px;
+            padding: 0 1rem;
+        }
+        
+        /* Compact card - NO OVERFLOW */
+        .auth-card {
+            max-height: calc(100vh - 100px);
+            overflow: hidden;
+        }
+        
+        /* Tab button styles */
+        .tab-btn-active {
+            background: linear-gradient(to bottom right, #2563EB, #60A5FA) !important;
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3), 0 2px 4px -1px rgba(37, 99, 235, 0.1);
+        }
+        
+        .tab-btn-inactive {
+            background-color: transparent !important;
+            color: #374151;
+        }
+        
+        [data-theme="dark"] .tab-btn-inactive {
+            color: #D1D5DB;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-darkgrey text-gray-900 dark:text-white transition-colors duration-300 min-h-screen">
+
+    <nav class="navbar-container py-2.5 fixed top-0 w-full z-50">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="flex items-center justify-between">
+                
+                <a href="index.html" class="flex items-center gap-2 no-underline transition-transform duration-300 hover:scale-105">
+                    <div class="w-9 h-9 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center overflow-hidden shadow-lg relative shrink-0">
+                        <i class="fas fa-microphone-lines text-white text-sm z-10 relative"></i>
+                        <div class="logo-shine"></div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-black text-darkgrey dark:text-white leading-tight">GrowwPodcast</div>
+                        <span class="text-[10px] font-bold text-primary dark:text-accent block -mt-0.5 uppercase tracking-wider">Voice</span>
+                    </div>
+                </a>
+                
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gray-100 dark:bg-white/10 border border-transparent flex items-center justify-center text-darkgrey dark:text-white hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-lg flex-shrink-0" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon text-base sm:text-lg" id="theme-icon"></i>
+                    </button>
+                    
+                    <button id="rtl-toggle" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gray-100 dark:bg-white/10 border border-transparent flex items-center justify-center text-darkgrey dark:text-white hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-lg flex-shrink-0">
+                        <i class="fas fa-align-right text-base sm:text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        
+        <div class="auth-card bg-white dark:bg-darkgrey-light border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-2xl">
+            
+            <div class="text-center mb-3">
+                <h1 class="text-lg font-black text-darkgrey dark:text-white mb-0.5">Welcome to GrowwPodcast 🎙️</h1>
+                <p class="text-xs text-gray-600 dark:text-gray-400">Your daily dose of audio wisdom</p>
+            </div>
+            
+            <div class="flex gap-1 bg-gray-100 dark:bg-darkgrey p-1 rounded-lg mb-3">
+                <button id="login-tab" class="tab-btn flex-1 py-1.5 px-3 rounded-md font-bold text-xs transition-all duration-300 tab-btn-active" onclick="switchTab('login')">
+                    Login
+                </button>
+                <button id="register-tab" class="tab-btn flex-1 py-1.5 px-3 rounded-md font-bold text-xs transition-all duration-300 tab-btn-inactive hover:bg-gray-200 dark:hover:bg-white/5" onclick="switchTab('register')">
+                    Register
+                </button>
+            </div>
+            
+            <div id="login-form" class="form-content form-active">
+                <form onsubmit="handleLogin(event)" class="space-y-2">
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5">Email</label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="email" class="w-full pl-8 pr-2.5 py-1.5 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-gray-900 dark:text-white placeholder:text-gray-400" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5">Password</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="password" id="login-password" class="w-full pl-8 pr-9 py-1.5 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-gray-900 dark:text-white placeholder:text-gray-400" placeholder="Enter your password" required>
+                            <i class="fas fa-eye absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-primary transition-colors text-xs" onclick="togglePassword('login-password')"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-xs pt-0.5">
+                        <label class="flex items-center gap-1.5 cursor-pointer">
+                            <input type="checkbox" class="w-3 h-3 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <span class="text-gray-600 dark:text-gray-400">Remember</span>
+                        </label>
+                        <a href="#" class="font-bold text-primary hover:text-primary-dark transition-colors no-underline">Forgot?</a>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-2 bg-gradient-to-br from-primary to-primary-dark text-white font-bold text-xs rounded-lg hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 mt-3">
+                        Login
+                    </button>
+                    
+                    <div class="flex items-center gap-2 my-2.5">
+                        <div class="flex-1 h-px bg-gray-300 dark:bg-gray-700"></div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">OR</span>
+                        <div class="flex-1 h-px bg-gray-300 dark:bg-gray-700"></div>
+                    </div>
+                    
+                    <button type="button" class="w-full py-1.5 px-3 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg font-semibold text-xs text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2">
+                        <i class="fab fa-google text-xs" style="color: #DB4437;"></i>
+                        Google
+                    </button>
+                    
+                    <button type="button" class="w-full py-1.5 px-3 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg font-semibold text-xs text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 mt-1.5">
+                        <i class="fab fa-facebook text-xs" style="color: #4267B2;"></i>
+                        Facebook
+                    </button>
+                    
+                </form>
+            </div>
+            
+            <div id="register-form" class="form-content hidden" style="display: none;">
+                <form onsubmit="handleRegister(event)" class="space-y-2">
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5">Full Name</label>
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="text" class="w-full pl-8 pr-2.5 py-1.5 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-gray-900 dark:text-white placeholder:text-gray-400" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5">Email</label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="email" class="w-full pl-8 pr-2.5 py-1.5 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-gray-900 dark:text-white placeholder:text-gray-400" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5">Password</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="password" id="register-password" class="w-full pl-8 pr-9 py-1.5 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-gray-900 dark:text-white placeholder:text-gray-400" placeholder="Create password" required>
+                            <i class="fas fa-eye absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-primary transition-colors text-xs" onclick="togglePassword('register-password')"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5">Confirm</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="password" id="confirm-password" class="w-full pl-8 pr-9 py-1.5 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-gray-900 dark:text-white placeholder:text-gray-400" placeholder="Confirm password" required>
+                            <i class="fas fa-eye absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-primary transition-colors text-xs" onclick="togglePassword('confirm-password')"></i>
+                        </div>
+                    </div>
+                    
+                    <label class="flex items-start gap-1.5 cursor-pointer pt-0.5">
+                        <input type="checkbox" class="w-3 h-3 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer flex-shrink-0" required>
+                        <span class="text-xs text-gray-600 dark:text-gray-400 leading-tight">
+                            I agree to <a href="#" class="font-bold text-primary hover:text-primary-dark transition-colors no-underline">Terms & Conditions</a>
+                        </span>
+                    </label>
+                    
+                    <button type="submit" class="w-full py-2 bg-gradient-to-br from-primary to-primary-dark text-white font-bold text-xs rounded-lg hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 mt-2.5">
+                        Create Account
+                    </button>
+                    
+                    <div class="flex items-center gap-2 my-2.5">
+                        <div class="flex-1 h-px bg-gray-300 dark:bg-gray-700"></div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">OR</span>
+                        <div class="flex-1 h-px bg-gray-300 dark:bg-gray-700"></div>
+                    </div>
+                    
+                    <button type="button" class="w-full py-1.5 px-3 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg font-semibold text-xs text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2">
+                        <i class="fab fa-google text-xs" style="color: #DB4437;"></i>
+                        Google
+                    </button>
+                    
+                    <button type="button" class="w-full py-1.5 px-3 bg-gray-50 dark:bg-darkgrey border border-gray-300 dark:border-gray-700 rounded-lg font-semibold text-xs text-gray-700 dark:text-gray-300 hover:border-primary hover:text-primary hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 mt-1.5">
+                        <i class="fab fa-facebook text-xs" style="color: #4267B2;"></i>
+                        Facebook
+                    </button>
+                    
+                </form>
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <script>
+        // Check URL parameters for "tab" logic
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab === 'register') {
+                switchTab('register');
+            }
+        });
+
+        // Theme Toggle
+        const html = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        html.setAttribute('data-theme', currentTheme);
+        
+        if (currentTheme === 'dark') {
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeBtn.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            if (theme === 'dark') {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+        
+        // RTL Toggle
+        const rtlBtn = document.getElementById('rtl-toggle');
+        const currentDir = localStorage.getItem('direction') || 'ltr';
+        html.setAttribute('dir', currentDir);
+        
+        rtlBtn.addEventListener('click', () => {
+            const dir = html.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+            html.setAttribute('dir', dir);
+            localStorage.setItem('direction', dir);
+        });
+        
+        // Switch Tabs
+        function switchTab(tab) {
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (tab === 'login') {
+                loginTab.className = 'tab-btn flex-1 py-1.5 px-3 rounded-md font-bold text-xs transition-all duration-300 tab-btn-active';
+                registerTab.className = 'tab-btn flex-1 py-1.5 px-3 rounded-md font-bold text-xs transition-all duration-300 tab-btn-inactive hover:bg-gray-200 dark:hover:bg-white/5';
+                
+                loginForm.classList.remove('hidden');
+                loginForm.style.display = 'block';
+                loginForm.classList.add('form-active');
+                registerForm.classList.add('hidden');
+                registerForm.style.display = 'none';
+                
+                // Update URL to reflect login state (cleaner UX)
+                const url = new URL(window.location);
+                url.searchParams.delete('tab');
+                window.history.pushState({}, '', url);
+                
+            } else {
+                registerTab.className = 'tab-btn flex-1 py-1.5 px-3 rounded-md font-bold text-xs transition-all duration-300 tab-btn-active';
+                loginTab.className = 'tab-btn flex-1 py-1.5 px-3 rounded-md font-bold text-xs transition-all duration-300 tab-btn-inactive hover:bg-gray-200 dark:hover:bg-white/5';
+                
+                registerForm.classList.remove('hidden');
+                registerForm.style.display = 'block';
+                registerForm.classList.add('form-active');
+                loginForm.classList.add('hidden');
+                loginForm.style.display = 'none';
+                
+                // Update URL to reflect register state
+                const url = new URL(window.location);
+                url.searchParams.set('tab', 'register');
+                window.history.pushState({}, '', url);
+            }
+        }
+        
+        // Toggle Password Visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = event.target;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+        
+        // Handle Login
+        function handleLogin(e) {
+            e.preventDefault();
+            // Simulate login and redirect to user dashboard
+            window.location.href = 'user-dashboard.html';
+        }
+        
+        // Handle Register
+        function handleRegister(e) {
+            e.preventDefault();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            alert('Registration successful! Redirecting to login...');
+            switchTab('login');
+        }
+    </script>
+</body>
+</html>
